@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiplication Practice — Minimalist Math Trainer</title>
+  <meta name="description" content="A clean, minimalist local web app to master multiplication tables with quiz, flashcard, and interactive grid modes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Minimalist Google Sites Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="brand" id="brand-home-btn">
+        <div class="brand-icon">×</div>
+        <div>
+          <div class="brand-title">Multiplication Practice</div>
+          <div class="brand-subtitle">Simple, focused math trainer</div>
+        </div>
+      </a>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" role="tablist" aria-label="App Views">
+        <button class="nav-tab-btn active" id="tab-quiz" role="tab" aria-selected="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Quiz
+        </button>
+        <button class="nav-tab-btn" id="tab-flashcards" role="tab" aria-selected="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          Flashcards
+        </button>
+        <button class="nav-tab-btn" id="tab-grid" role="tab" aria-selected="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+          Table Grid
+        </button>
+      </nav>
+
+      <!-- Action Buttons (Sound + Theme) -->
+      <div class="header-actions">
+        <button class="icon-btn" id="sound-toggle-btn" title="Toggle Sound" aria-label="Toggle Sound">
+          <svg id="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <svg id="sound-icon-off" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Dark/Light Mode">
+          <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="theme-icon-light" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="main-content">
+
+    <!-- 1. QUIZ VIEW -->
+    <section id="quiz-view" class="view-panel">
+      <!-- Quiz Setup Panel -->
+      <div id="quiz-setup-panel" class="card">
+        <h1 class="section-title">Multiplication Practice Quiz</h1>
+        <p class="section-desc">Select which multiplication tables you want to test and your target round length.</p>
+
+        <!-- Tables Selection -->
+        <span class="option-label">Choose Tables</span>
+        <div class="chip-grid" id="tables-chip-grid">
+          <button type="button" class="chip-btn selected" data-value="all">All (1-12)</button>
+          <button type="button" class="chip-btn" data-value="1">1</button>
+          <button type="button" class="chip-btn" data-value="2">2</button>
+          <button type="button" class="chip-btn" data-value="3">3</button>
+          <button type="button" class="chip-btn" data-value="4">4</button>
+          <button type="button" class="chip-btn" data-value="5">5</button>
+          <button type="button" class="chip-btn" data-value="6">6</button>
+          <button type="button" class="chip-btn" data-value="7">7</button>
+          <button type="button" class="chip-btn" data-value="8">8</button>
+          <button type="button" class="chip-btn" data-value="9">9</button>
+          <button type="button" class="chip-btn" data-value="10">10</button>
+          <button type="button" class="chip-btn" data-value="11">11</button>
+          <button type="button" class="chip-btn" data-value="12">12</button>
+        </div>
+
+        <!-- Length Selection -->
+        <span class="option-label">Round Length</span>
+        <div class="chip-grid" id="length-chip-grid">
+          <button type="button" class="chip-btn" data-value="10">10 Questions</button>
+          <button type="button" class="chip-btn selected" data-value="20">20 Questions</button>
+          <button type="button" class="chip-btn" data-value="50">50 Questions</button>
+          <button type="button" class="chip-btn" data-value="endless">Endless</button>
+        </div>
+
+        <!-- Timer Mode Selection -->
+        <span class="option-label">Timer</span>
+        <div class="chip-grid" id="timer-chip-grid">
+          <button type="button" class="chip-btn selected" data-value="none">No Timer</button>
+          <button type="button" class="chip-btn" data-value="stopwatch">Stopwatch</button>
+          <button type="button" class="chip-btn" data-value="countdown">10s / Question</button>
+        </div>
+
+        <button type="button" class="btn-primary" id="start-quiz-btn">
+          Start Practice
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+      </div>
+
+      <!-- Quiz Active Game Panel -->
+      <div id="quiz-active-panel" class="card hidden">
+        <div class="quiz-header">
+          <div class="quiz-badges">
+            <span class="badge" id="quiz-progress-text">1 / 20</span>
+            <span class="badge badge-score" id="quiz-score-badge">Score: 0</span>
+            <span class="badge badge-streak" id="quiz-streak-badge">🔥 Streak: 0</span>
+            <span class="badge hidden" id="quiz-timer-badge">⏱️ 00:00</span>
+          </div>
+          <button type="button" class="btn-secondary" id="exit-quiz-btn">End Early</button>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="quiz-progress-bar"></div>
+        </div>
+
+        <div class="equation-box" id="quiz-equation-box">
+          <div class="equation-text" id="equation-display">7 × 8 = ?</div>
+          <div class="hint-text" id="feedback-hint">Type your answer and press Enter</div>
+        </div>
+
+        <!-- Answer Form -->
+        <form id="answer-form" class="answer-form" autocomplete="off">
+          <input 
+            type="number" 
+            id="answer-input" 
+            class="answer-input" 
+            placeholder="?" 
+            inputmode="numeric" 
+            pattern="[0-9]*" 
+            autofocus 
+            required
+          >
+          <button type="submit" class="btn-primary submit-btn" id="submit-answer-btn">Submit</button>
+        </form>
+
+        <!-- On-Screen Numeric Keypad for Mobile / Mouse -->
+        <div class="keypad" id="numeric-keypad">
+          <button type="button" class="keypad-btn" data-key="1">1</button>
+          <button type="button" class="keypad-btn" data-key="2">2</button>
+          <button type="button" class="keypad-btn" data-key="3">3</button>
+          <button type="button" class="keypad-btn" data-key="4">4</button>
+          <button type="button" class="keypad-btn" data-key="5">5</button>
+          <button type="button" class="keypad-btn" data-key="6">6</button>
+          <button type="button" class="keypad-btn" data-key="7">7</button>
+          <button type="button" class="keypad-btn" data-key="8">8</button>
+          <button type="button" class="keypad-btn" data-key="9">9</button>
+          <button type="button" class="keypad-btn" data-key="clear">C</button>
+          <button type="button" class="keypad-btn" data-key="0">0</button>
+          <button type="button" class="keypad-btn" data-key="backspace">⌫</button>
+        </div>
+      </div>
+
+      <!-- Quiz Summary / Results Panel -->
+      <div id="quiz-results-panel" class="card results-card hidden">
+        <div class="result-emoji" id="results-emoji">🎉</div>
+        <h2 class="section-title">Session Complete!</h2>
+        <div class="result-score" id="results-percentage">100%</div>
+        <p class="section-desc" id="results-summary-text">Outstanding accuracy! You've mastered these problems.</p>
+
+        <div class="result-details">
+          <div class="result-stat">
+            <span class="result-stat-val" id="results-correct-count">20 / 20</span>
+            <span class="result-stat-lbl">Correct Answers</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-val" id="results-max-streak">20</span>
+            <span class="result-stat-lbl">Max Streak</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-val" id="results-total-time">00:45</span>
+            <span class="result-stat-lbl">Total Time</span>
+          </div>
+        </div>
+
+        <!-- Missed questions review if any -->
+        <div id="missed-questions-wrap" class="missed-list hidden">
+          <div class="missed-title">Review Missed Questions</div>
+          <ul class="missed-items" id="missed-items-list"></ul>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn-primary" id="retry-quiz-btn">Practice Again</button>
+          <button type="button" class="btn-secondary hidden" id="practice-missed-btn">Practice Missed Only</button>
+          <button type="button" class="btn-secondary" id="change-settings-btn">Change Settings</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. FLASHCARDS VIEW -->
+    <section id="flashcards-view" class="view-panel hidden">
+      <div class="card">
+        <h2 class="section-title">Multiplication Flashcards</h2>
+        <p class="section-desc">Tap the card or press Space to flip. Test your recall speed.</p>
+
+        <!-- Flashcard Table Filter -->
+        <span class="option-label">Filter Table</span>
+        <div class="chip-grid" id="flashcard-filter-grid">
+          <button type="button" class="chip-btn selected" data-table="all">All (1-12)</button>
+          <button type="button" class="chip-btn" data-table="2">2</button>
+          <button type="button" class="chip-btn" data-table="3">3</button>
+          <button type="button" class="chip-btn" data-table="4">4</button>
+          <button type="button" class="chip-btn" data-table="5">5</button>
+          <button type="button" class="chip-btn" data-table="6">6</button>
+          <button type="button" class="chip-btn" data-table="7">7</button>
+          <button type="button" class="chip-btn" data-table="8">8</button>
+          <button type="button" class="chip-btn" data-table="9">9</button>
+          <button type="button" class="chip-btn" data-table="10">10</button>
+          <button type="button" class="chip-btn" data-table="11">11</button>
+          <button type="button" class="chip-btn" data-table="12">12</button>
+        </div>
+
+        <div class="flashcard-wrapper">
+          <div class="badge" id="card-count-badge">Card 1 / 144</div>
+
+          <!-- Flip Card -->
+          <div class="flashcard-container" id="flashcard-box" tabindex="0" role="button" aria-label="Flashcard. Press to flip.">
+            <div class="flashcard-inner" id="flashcard-inner">
+              <div class="flashcard-front">
+                <div class="flashcard-question" id="flashcard-front-text">6 × 7</div>
+                <div class="flashcard-subtext">Click card or press Space to flip</div>
+              </div>
+              <div class="flashcard-back">
+                <div class="flashcard-answer" id="flashcard-back-text">42</div>
+                <div class="flashcard-subtext">6 × 7 = 42</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flashcard Controls -->
+          <div class="flashcard-controls">
+            <button type="button" class="btn-secondary" id="fc-prev-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Previous
+            </button>
+            <button type="button" class="btn-primary" id="fc-flip-btn">Flip Card</button>
+            <button type="button" class="btn-secondary" id="fc-next-btn">
+              Next
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <button type="button" class="btn-secondary" id="fc-shuffle-btn" title="Shuffle Cards">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+              Shuffle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TABLE GRID VIEW -->
+    <section id="grid-view" class="view-panel hidden">
+      <div class="card">
+        <h2 class="section-title">Interactive Multiplication Grid</h2>
+        <p class="section-desc">Explore the 1–12 multiplication table. Hover or click any number to view its factors.</p>
+
+        <div class="grid-controls">
+          <div class="chip-grid" style="margin-bottom: 0;">
+            <button type="button" class="chip-btn selected" id="grid-size-10" data-size="10">10 × 10</button>
+            <button type="button" class="chip-btn" id="grid-size-12" data-size="12">12 × 12</button>
+          </div>
+
+          <button type="button" class="btn-secondary" id="grid-mask-toggle">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Hide Numbers (Self Test)
+          </button>
+        </div>
+
+        <div class="table-scroll-wrap" style="margin-top: 1rem;">
+          <table class="multiplication-table" id="interactive-grid-table">
+            <!-- Dynamically populated by app.js -->
+          </table>
+        </div>
+
+        <div class="active-calculation-display" id="grid-calc-display">
+          <span>Hover or tap any number in the grid</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Google Sites Minimalist Footer -->
+  <footer class="site-footer">
+    <p>Multiplication Practice • Pure HTML, CSS & JavaScript • No external dependencies</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
